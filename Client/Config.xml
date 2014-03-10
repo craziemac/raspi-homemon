@@ -1,0 +1,14 @@
+<Setting>
+	<Site Name="Development site" Id="10001">
+		<Installbase Name="Humbug">
+			<Sensor Item="10001.1"/>
+			<Sensor Item="10001.2"/>
+		</Installbase>
+		<Installbase Name="Sensor">
+			<Sensor Item="10001.1"/>
+			<Sensor Item="10001.2"/>
+			<Sensor Item="10001.3"/>
+		</Installbase>
+		<Database Name="RaspberryPiDev" Host="192.168.1.115" User="raspidev" Password="C9ME@u2w"/>
+	</Site>
+</Setting>
