@@ -1,0 +1,94 @@
+
+1 - Setup RaspberryPi
+
+GPIO data = 18
+GPIO sck = 16
+
+
+1.1 - Configure apt-get
+2 - Install MySQL
+3 - Install Apache 2
+3.1 - Configure Apache 2
+3.2 - Configure directories
+4 - Install Python
+4.1 - Install MySQL connector python
+5 - Install PHP
+6 - Install rpiSHT1x
+7 - Install Node
+8 - Install pi-admin
+
+    1 - SETUP RaspberryPi
+    
+    1.1 - CONFIGURE apt-get
+    
+    Run:
+        sudo apt-get update && sudo apt-get dist-upgrade
+    
+    2 - INSTALL MySQL
+    
+    Run:
+        sudo apt-get install mysql-server
+    
+    3 - INSTALL Apache 2
+    
+    Run:
+        sudo apt-get install apache2
+    
+    4 - INSTALL Python
+
+    Python is by default already installed on raspbian
+    
+    5 - INSTALL PHP
+    
+    Run:
+        sudo apt-get install php5
+    Run:
+        sudo apt-get install php5-mysql
+    
+    6 - INSTALL rpiSht1x
+    
+    Run:
+        cd ~ 
+        wget https://pypi.python.org/packages/source/r/rpiSht1x/rpiSht1x-1.2.tar.gz 
+        sudo gunzip rpiSht1x-1.2.tar.gz 
+        sudo tar -xvf rpiSht1x-1.2.tar 
+        cd rpiSht1x-1.2/ 
+        sudo python setup.py install 
+        cd .. 
+        rm rpiSht1x-1.2.tar 
+        sudo rm -rf rpiSht1x-1.2/ 
+
+    7 - INSTALL Node
+    
+    Visit http://nodejs.org/dist/ and check for newest stable distro with a precompiled arm-pi tarball
+    Run:
+        cd ~/tmp
+        wget http://nodejs.org/dist/v0.10.24/node-v0.10.24-linux-arm-pi.tar.gz
+        tar -xvzf node-v0.10.24-linux-arm-pi.tar.gz
+        mkdir ~/opt/node
+        cp -r node-v0.10.24-linux-arm-pi/* /opt/node
+        rm -r node-v0.10.24-linux-arm-pi
+        -Optional- rm -r node-v0.10.24-linux-arm-pi.tar.gz
+    Add path to node installation to PATH variable
+    Run:
+        sudo nano /etc/profile
+    Add this before the line saying "export PATH"
+        NODE_JS_HOME="~/opt/node"
+        PATH="$PATH:$NODE_JS_HOME/bin"
+    Close and save the file
+    Restart pi with:
+        sudo shutdown -r now
+    Check version to verify installation:
+        node -v
+    This should print current version of node
+    
+    8 - INSTALL pi-admin
+    
+    Clone git repo with:
+        git clone https://github.com/tlnguyen-com/pi-admin.git
+    Create directory where pi-admin should be installed:
+        mkdir -p ~/opt/pi-admin/node_modules
+    Run:
+        cd pi-admin
+        sudo /opt/node/bin/npm install -g
+        

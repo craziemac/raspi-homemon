@@ -1,26 +1,29 @@
-'''
-Created on 1 nov 2013
 
-@author: Marcus Jonsson
-'''
+# Created: 2013-11-01
+# Version: 1.0.0.0
+# Author: Marcus Jonsson
+# Description: Contains class to handle mysql database connection
+
 import mysql.connector
 from mysql.connector import errorcode
 
-class Database(object):
-    '''
-    classdocs
-    '''
+class DatabaseConn(object):
+    """ Contains connection details to a mysql database
+    and handles the connection to the database.  
+    """
 
-    ''' Constructor '''
     def __init__(self):
-        self.cnxdetails = Database.ConnectionDetails()
+        """ Constructor """
+        self.cnxdetails = DatabaseConn.ConnectionDetails()
         self.connection = None
         self.cursor = None
 
-    ''' Method '''
-    def Connect(self):
+    def connect(self):
+        """ Opens a connection to a mysql database
+        with the connection details specified in subclass ConnectionDetails.  
+        """
         try:
-            if self.cnxdetails._user != None and self.cnxdetails._password != None and self.cnxdetails._host != None and self.cnxdetails._name != None:
+            if self.cnxdetails._user is not None and self.cnxdetails._password is not None and self.cnxdetails._host is not None and self.cnxdetails._name is not None:
                 self.connection = mysql.connector.connect(user=self.cnxdetails._user, password=self.cnxdetails._password, host=self.cnxdetails._host, database=self.cnxdetails._name)
                 self.cursor = self.connection.cursor() 
             else:
@@ -32,41 +35,51 @@ class Database(object):
                 print("Error: Database does not exists")
             else:
                 print(err)
-        except Exception as ex:
-            print(ex)
+        except Exception as exc:
+            print(exc)
 
-    def Execute(self, query, data = None):
+    def execute(self, query, data = None):
+        """ Executes query on existing mysql connection
+        and returns the cursor.  
+        """
         try:
-            if self.connection != None:
+            if self.connection is not None:
                 self.cursor.execute(query, data)
                 return self.cursor
             else:
                 raise Exception("Error: No connection open")
-        except Exception as ex:
-            print(ex)
+        except Exception as exc:
+            print(exc)
 
-    def Commit(self):
+    def commit(self):
+        """ Commits existing connection.  
+        """
         try:
-            if self.connection != None and self.cursor != None:
+            if self.connection is not None and self.cursor is not None:
                 self.connection.commit()
             else:
                 raise Exception("Error: No connection or cursor open")
-        except Exception as ex:
-            print(ex)
+        except Exception as exc:
+            print(exc)
 
-    def Disconnect(self):
+    def disconnect(self):
+        """ Disconnects existing connection.  
+        """
         try:
-            if self.connection != None:
+            if self.connection is not None:
                 self.connection.close()
             else:
                 raise Exception("Error: No active connection available")
-        except Exception as ex:
-            print(ex)
+        except Exception as exc:
+            print(exc)
         
-    ''' Property '''
     class ConnectionDetails(object):
-        ''' Constructor '''
+        """ Contains properties with connection details
+        for connecting to mysql database.  
+        """
+
         def __init__(self):
+            """ Constructor """
             # Property
             self._user = None
             self._password = None
@@ -75,7 +88,7 @@ class Database(object):
 
         @property
         def user(self):
-            ''' The username for the database connection '''
+            """ The username for the database connection.  """
             return self._user
         @user.setter
         def user(self, value):
@@ -86,7 +99,7 @@ class Database(object):
 
         @property
         def password(self):
-            ''' The password for the database connection '''
+            """ The password for the database connection.  """
             return self._password
         @password.setter
         def password(self, value):
@@ -97,7 +110,7 @@ class Database(object):
 
         @property
         def host(self):
-            ''' The host for the database connection '''
+            """ The host for the database connection.  """
             return self._host
         @host.setter
         def host(self, value):
@@ -108,7 +121,7 @@ class Database(object):
 
         @property
         def name(self):
-            ''' The name for the database connection '''
+            """ The name for the database connection.  """
             return self._name
         @name.setter
         def name(self, value):

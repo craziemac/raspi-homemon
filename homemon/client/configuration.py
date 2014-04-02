@@ -1,22 +1,23 @@
-'''
-Created on 1 nov 2013
 
-@author: Marcus Jonsson
-'''
+# Created: 2013-11-01
+# Version: 1.0.0.0
+# Author: Marcus Jonsson
+# Description: Contains class that parses XML file with site configuration
+
 import sys
 import xml.etree.ElementTree as ET
 
 class Configuration(object):
-    '''
-    classdocs
-    '''
+    """ Parses a XML file containing site configuration.  
+    """
 
-    ''' Constructor '''
     def __init__(self,file):
+        """ Constructor """
         self.file = file
 
-    '''Methods'''
-    def LoadConfig(self):
+    def loadconfig(self):
+        """ Loads XML file for parsing and stores configuration.  
+        """
         # Read configuration file
         try:
             tree = ET.parse(self.file)
@@ -31,7 +32,7 @@ class Configuration(object):
         
             self.database = site.find("Database")
             # Check that the database configuration is correct.
-            if self.database == None \
+            if self.database is None \
             or "Name" not in self.database.attrib \
             or "Host" not in self.database.attrib \
             or "User" not in self.database.attrib \
@@ -42,7 +43,7 @@ class Configuration(object):
             installbase = site.find("Installbase[@Name='Sensor']")
             self.sensors = installbase.findall("Sensor")
         
-        except Exception as ex:
-            print(ex)
+        except Exception as exc:
+            print(exc)
             sys.exit()
         
